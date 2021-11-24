@@ -1,0 +1,16 @@
+a,
+li,
+ul {
+  text-decoration: none !important;
+  color: black !important;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.fa-facebook-f:before,
+.fa-facebook:before {
+  content: "\f09a" !important;
+}

@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router";
 import Checkbox from "../components/Checkbox";
 import CoursesCheckbox from "../components/CoursesCheckbox";
 import ResourceTypeCheckBox from "../components/ResourceTypeCheckBox";
@@ -22,6 +23,12 @@ export default function ResourcesPage() {
   //use state to store the resource
   const [resource, setResource] = React.useState([]);
 
+  //use history to redirect to the home page
+  const history = useHistory();
+
+  //use state to store the clicked resource
+  const [clickedResource, setClickedResource] = React.useState([]);
+
   //use state for seletec awarding body id
   const [selectedAwardingBodyId, setSelectedAwardingBodyId] = React.useState(
     []
@@ -37,7 +44,6 @@ export default function ResourcesPage() {
   const getAwardingBodies = () => {
     try {
       axios.get("/awarding_bodies").then((res) => {
-        console.log(res.data);
         setAwardingBody(res.data);
       });
     } catch (error) {
@@ -49,7 +55,6 @@ export default function ResourcesPage() {
   const getResourcesTypes = () => {
     try {
       axios.get("/resource_types").then((res) => {
-        console.log(res.data);
         setResourcesType(res.data);
       });
     } catch (error) {
@@ -61,7 +66,6 @@ export default function ResourcesPage() {
   const getResources = () => {
     try {
       axios.get("/resources").then((res) => {
-        console.log(res.data);
         setResource(res.data);
         setFilteredResource(res.data);
       });
@@ -74,7 +78,6 @@ export default function ResourcesPage() {
   const getCourses = () => {
     try {
       axios.get("/courses").then((res) => {
-        console.log(res.data);
         setCourses(res.data);
       });
     } catch (error) {
@@ -158,7 +161,23 @@ export default function ResourcesPage() {
     }
     showFilteredResoults(newFilters);
     setFilters(newFilters);
-    console.log(newFilters);
+  };
+
+  //on resource click
+  const onResourceClick = (resource) => {
+    //check token
+    if (localStorage.getItem("token")) {
+      axios.get(`/resources/${resource.id}`).then((res) => {
+        if (res.data.success) {
+          window.open(res.data.resource.resource_url, "_blank");
+        } else {
+          alert("");
+        }
+      });
+    } else {
+      alert("Please login to view the resource");
+      history.push("/landing");
+    }
   };
 
   return (
@@ -269,6 +288,7 @@ export default function ResourcesPage() {
                 data-toggle="collapse"
                 data-target="#collapseExample"
                 aria-expanded="false"
+                onClick={() => history.push("/landing")} 
               >
                 REGISTER
               </button>
@@ -337,8 +357,13 @@ export default function ResourcesPage() {
                         data-toggle="collapse"
                         data-target="#collapseExample"
                         aria-expanded="false"
+                        onClick={() => {
+                          onResourceClick(resource);
+                        }}
                       >
-                        View now
+                        {resource.resourcetype_id === 1
+                          ? "Start Now"
+                          : "View Now"}
                       </button>
                     </div>
                   </div>

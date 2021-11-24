@@ -1,0 +1,28 @@
+.main {
+  background: url("../images/girl.png") no-repeat;
+  background-size: cover;
+  height: 100vh;
+}
+
+.information-item {
+  background-color: white;
+  border-radius: 4px;
+}
+
+.resource-btn {
+  background-color: #8f1ab9;
+  width: 259px;
+}
+
+.modal-header{
+  background-color: #8f1ab9;
+}
+
+.modal-title{
+  color: white;
+  font-weight: 600;
+}
+
+.login-btn{
+  width: 230px;
+}
