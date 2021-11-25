@@ -24,8 +24,7 @@ export default function Landing() {
   //use history to redirect to home page
   const history = useHistory();
 
-
-  //on
+  //onlogin function
   const onLogin = (e) => {
     e.preventDefault();
     try {
@@ -37,6 +36,12 @@ export default function Landing() {
         .then((res) => {
           if (res.data.status === "success") {
             localStorage.setItem("token", res.data.data.token);
+            document
+              .getElementById("exampleModal")
+              .classList.remove("show", "d-block");
+            document
+              .querySelectorAll(".modal-backdrop")
+              .forEach((el) => el.classList.remove("modal-backdrop"));
             history.push("/");
           } else {
             alert(res.data.message);
@@ -65,7 +70,15 @@ export default function Landing() {
         })
         .then((res) => {
           if (res.data.status === "success") {
+            document
+              .getElementById("signupModal")
+              .classList.remove("show", "d-block");
+            document
+              .querySelectorAll(".modal-backdrop")
+              .forEach((el) => el.classList.remove("modal-backdrop"));
             alert(res.data.message);
+            setEmail("");
+            setPassword("");
           } else {
             alert(res.data.message);
           }
@@ -160,13 +173,15 @@ export default function Landing() {
                   <form>
                     <div class="container d-flex justify-content-center align-items-center flex-column ">
                       <div class="text-center mb-6">
-                        <h1 class="">Welcome Back!</h1>
-                        <h5>What will you learn today? Find out, with GEL</h5>
+                        <h3 class="login-header">Welcome Back!</h3>
+                        <h6 className="login-subheader">
+                          What will you learn today? Find out, with GEL
+                        </h6>
                       </div>
                       <div class="mb-6">
                         <input
                           type="email"
-                          class="form-control py-6 px-6"
+                          class="form-control py-6 px-6 input-email"
                           id="exampleInputPassword1"
                           placeholder="Email"
                           value={email}
@@ -177,7 +192,7 @@ export default function Landing() {
                       <div class="py-6">
                         <input
                           type="password"
-                          class="form-control"
+                          class="form-control input-password"
                           id="exampleInputPassword1"
                           placeholder="Password"
                           value={password}
@@ -189,7 +204,7 @@ export default function Landing() {
                         type="submit"
                         class="btn btn-primary rounded-pill py-2 px-6 login-btn"
                         onClick={onLogin}
-                        data-bs-dismiss="modal"
+                        // data-bs-dismiss="modal"
                       >
                         Login
                       </button>
@@ -227,15 +242,15 @@ export default function Landing() {
                   <form>
                     <div class="container d-flex justify-content-center align-items-center flex-column ">
                       <div class="text-center">
-                        <h1 class="">Sign Up for free</h1>
-                        <h5>
+                        <h3 class="login-header">Sign Up for free</h3>
+                        <h6 className="login-subheader">
                           Join the World's Largest Free Learning Community
-                        </h5>
+                        </h6>
                       </div>
                       <div class="p-6">
                         <input
                           type="text"
-                          class="form-control mt-6"
+                          class="form-control mt-6 input-firstname"
                           id="exampleInputPassword1"
                           placeholder="First Name"
                           value={firstName}
@@ -246,7 +261,7 @@ export default function Landing() {
                       <div class="py-6">
                         <input
                           type="text"
-                          class="form-control"
+                          class="form-control input-lastname"
                           id="exampleInputPassword1"
                           placeholder="Last Name"
                           value={lastName}
@@ -257,7 +272,7 @@ export default function Landing() {
                       <div class="p-6">
                         <input
                           type="email"
-                          class="form-control mt-6"
+                          class="form-control mt-6 input-email"
                           id="exampleInputPassword1"
                           placeholder="Email"
                           value={email}
@@ -268,7 +283,7 @@ export default function Landing() {
                       <div class="py-6">
                         <input
                           type="password"
-                          class="form-control"
+                          class="form-control input-password"
                           id="exampleInputPassword1"
                           placeholder="Password"
                           value={password}
@@ -280,14 +295,19 @@ export default function Landing() {
                         type="submit"
                         class="btn btn-primary rounded-pill py-2 px-6 login-btn"
                         onClick={onSignUp}
-                        data-bs-dismiss="modal"
+                        // data-bs-dismiss="modal"
                       >
                         Sign up
                       </button>
                       <p class="">
-                        Already have an account? <a href=""
-                        data-bs-toggle="modal"
-                        data-bs-target="#exampleModal">Log in</a>
+                        Already have an account?{" "}
+                        <a
+                          href=""
+                          data-bs-toggle="modal"
+                          data-bs-target="#exampleModal"
+                        >
+                          Log in
+                        </a>
                       </p>
                     </div>
                   </form>

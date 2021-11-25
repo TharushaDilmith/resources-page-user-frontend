@@ -42,3 +42,9 @@
 .checkbox{
     height: 100vh;
 }
+
+.login-btn{
+    margin-bottom: 10px !important;
+    margin-top: 20px !important;
+}
+

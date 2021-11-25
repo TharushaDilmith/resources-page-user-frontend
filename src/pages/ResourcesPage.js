@@ -339,7 +339,8 @@ export default function ResourcesPage() {
           <div class="col-9 mt-3">
             <div class="row g-4">
               {/* display resources */}
-              {filteredResource.map((resource) => (
+              { filteredResource.length >0 ? (
+              filteredResource.map((resource) => (
                 <div class="col-md-6 col-lg-3 px-3">
                   <div class="card bg-light">
                     <img
@@ -368,7 +369,7 @@ export default function ResourcesPage() {
                     </div>
                   </div>
                 </div>
-              ))}
+              ))): ("No Result Found")}
             </div>
           </div>
         </div>
