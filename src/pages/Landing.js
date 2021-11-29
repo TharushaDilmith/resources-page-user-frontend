@@ -92,8 +92,8 @@ export default function Landing() {
   };
 
   return (
-    <div className="landing">
-      <section className="main">
+    <div className="landing  p-0">
+      <section className="main p-0">
         <div className="container py-3">
           <div className="row">
             <div className="col-6 d-flex justify-content-center flex-column">
@@ -316,10 +316,6 @@ export default function Landing() {
             </div>
           </div>
         </div>
-      </section>
-      {/* footer */}
-      <section className="footer mt-4">
-        <Footer />
       </section>
     </div>
   );
