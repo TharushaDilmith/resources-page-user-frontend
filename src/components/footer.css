@@ -1,4 +1,3 @@
-
 li,
 ul {
   text-decoration: none !important;
@@ -15,7 +14,15 @@ ul {
   content: "\f09a" !important;
 }
 
-.footer a{
+.footer a {
   text-decoration: none !important;
   color: black !important;
+}
+
+.footer {
+  width: 100vw;
+}
+
+.ss {
+  width: 100vw;
 }

@@ -41,6 +41,7 @@
 
 .checkbox{
     height: 100vh;
+    padding: 0;
 }
 
 .login-btn{
@@ -48,3 +49,10 @@
     margin-top: 20px !important;
 }
 
+.body{
+    margin-bottom: 30px;
+}
+
+.header{
+    width: 100% !important;
+}

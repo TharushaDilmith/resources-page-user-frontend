@@ -3,10 +3,10 @@ import "./footer.css"
 
 export default function Footer() {
   return (
-    <div className="footer">
+    <div className="ss p-0 m-0">
       <footer>
-        <div class="container">
-          <div class="row">
+        <div class="container p-0">
+          <div class="row p-0">
             <div class="col-lg-3 col-md-12 col-sm-12 col-12">
               <div class="widget">
                 <div class="widget-title">Contact Info</div>

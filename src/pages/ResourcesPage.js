@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import Checkbox from "../components/Checkbox";
 import CoursesCheckbox from "../components/CoursesCheckbox";
+import Footer from "../components/Footer";
 import ResourceTypeCheckBox from "../components/ResourceTypeCheckBox";
 import "./resourcesPage.css";
 
@@ -88,6 +89,7 @@ export default function ResourcesPage() {
   const showFilteredResoults = (filters) => {
     let filteredAwardingBody = [];
 
+    //filter by awarding body ,course and resource type
     if (
       filters.courses.length > 0 &&
       filters.awardingBody.length > 0 &&
@@ -101,6 +103,7 @@ export default function ResourcesPage() {
       );
       setFilteredResource(filteredAwardingBody);
     } else if (filters.courses.length > 0 && filters.awardingBody.length > 0) {
+      //filter by course and awarding body
       filteredAwardingBody = resource.filter(
         (resource) =>
           filters.courses.includes(resource.course_id) &&
@@ -108,6 +111,7 @@ export default function ResourcesPage() {
       );
       setFilteredResource(filteredAwardingBody);
     } else if (filters.courses.length > 0 && filters.resourceType.length > 0) {
+      //filter by course and resource type
       filteredAwardingBody = resource.filter(
         (resource) =>
           filters.courses.includes(resource.course_id) &&
@@ -118,6 +122,7 @@ export default function ResourcesPage() {
       filters.awardingBody.length > 0 &&
       filters.resourceType.length > 0
     ) {
+      //filter by awarding body and resource type
       filteredAwardingBody = resource.filter(
         (resource) =>
           filters.awardingBody.includes(resource.awardingbody_id) &&
@@ -125,16 +130,19 @@ export default function ResourcesPage() {
       );
       setFilteredResource(filteredAwardingBody);
     } else if (filters.courses.length > 0) {
+      //filter by course
       filteredAwardingBody = resource.filter((resource) =>
         filters.courses.includes(resource.course_id)
       );
       setFilteredResource(filteredAwardingBody);
     } else if (filters.awardingBody.length > 0) {
+      //filter by awarding body
       filteredAwardingBody = resource.filter((resource) =>
         filters.awardingBody.includes(resource.awardingbody_id)
       );
       setFilteredResource(filteredAwardingBody);
     } else if (filters.resourceType.length > 0) {
+      //filter by resource type
       filteredAwardingBody = resource.filter((resource) =>
         filters.resourceType.includes(resource.resourcetype_id)
       );
@@ -144,6 +152,7 @@ export default function ResourcesPage() {
     }
   };
 
+  //filter the resource
   const [Filters, setFilters] = useState({
     category: [],
     awardingBody: [],
@@ -288,7 +297,7 @@ export default function ResourcesPage() {
                 data-toggle="collapse"
                 data-target="#collapseExample"
                 aria-expanded="false"
-                onClick={() => history.push("/landing")} 
+                onClick={() => history.push("/landing")}
               >
                 REGISTER
               </button>
@@ -297,11 +306,11 @@ export default function ResourcesPage() {
           {/* </div> */}
         </div>
       </nav>
-      <section class="body">
-        <div class="row">
+      <section class="body p-0 m-0">
+        <div class="row margin-none p-0">
           <div class="bg-light col-3 checkbox">
             <div class="left-header py-4">
-              <h3 class="w-1000">Refine your Search</h3>
+              <h3 class="header">Refine your Search</h3>
             </div>
 
             <div class="left-body">
@@ -337,39 +346,42 @@ export default function ResourcesPage() {
           </div>
 
           <div class="col-9 mt-3">
-            <div class="row g-4">
+            <div class="row g-4 p-0">
               {/* display resources */}
-              { filteredResource.length >0 ? (
-              filteredResource.map((resource) => (
-                <div class="col-md-6 col-lg-3 px-3">
-                  <div class="card bg-light">
-                    <img
-                      class="card-img-top resource_image"
-                      src={resource.resource_image}
-                      alt=""
-                    />
-                    <div class="card-body text-center d-flex flex-column">
-                      <strong class="card-title">
-                        {resource.resource_name}
-                      </strong>
-                      <button
-                        class="btn btn-primary mt-3 mb-3"
-                        type="button"
-                        data-toggle="collapse"
-                        data-target="#collapseExample"
-                        aria-expanded="false"
-                        onClick={() => {
-                          onResourceClick(resource);
-                        }}
-                      >
-                        {resource.resourcetype_id === 1
-                          ? "Start Now"
-                          : "View Now"}
-                      </button>
+              {filteredResource.length > 0 ? (
+                filteredResource.map((resource) => (
+                  <div class="col-md-6 col-lg-3 pl-0">
+                    <div class="card bg-light">
+                      <img
+                        class="card-img-top resource_image"
+                        src={resource.resource_image}
+                        alt=""
+                      />
+                      <div class="card-body text-center d-flex flex-column">
+                        <strong class="card-title">
+                          {resource.resource_name}
+                        </strong>
+                        <button
+                          class="btn btn-primary mt-3 mb-3"
+                          type="button"
+                          data-toggle="collapse"
+                          data-target="#collapseExample"
+                          aria-expanded="false"
+                          onClick={() => {
+                            onResourceClick(resource);
+                          }}
+                        >
+                          {resource.resourcetype_id === 1
+                            ? "Start Now"
+                            : "View Now"}
+                        </button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))): ("No Result Found")}
+                ))
+              ) : (
+                <div className="margin-auto">No Result Found</div>
+              )}
             </div>
           </div>
         </div>
