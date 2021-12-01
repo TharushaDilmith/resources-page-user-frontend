@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import Checkbox from "../components/Checkbox";
 import CoursesCheckbox from "../components/CoursesCheckbox";
-import Footer from "../components/Footer";
 import ResourceTypeCheckBox from "../components/ResourceTypeCheckBox";
 import "./resourcesPage.css";
 
@@ -27,8 +26,6 @@ export default function ResourcesPage() {
   //use history to redirect to the home page
   const history = useHistory();
 
-  //use state to store the clicked resource
-  const [clickedResource, setClickedResource] = React.useState([]);
 
   //use state for seletec awarding body id
   const [selectedAwardingBodyId, setSelectedAwardingBodyId] = React.useState(
@@ -189,6 +186,22 @@ export default function ResourcesPage() {
     }
   };
 
+  //logout
+  const logout = () => {
+    try {
+      axios.post("/logout").then((res) => {
+        if (res.data.success) {
+          localStorage.removeItem("token");
+          history.push("/landing");
+        } else {
+          console.log(res.data.message);
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div>
       <nav className="navbar navbar-expand-lg navbar-light">
@@ -197,7 +210,10 @@ export default function ResourcesPage() {
           <div className="d-flex">
             {/* Brand  */}
 
-            <a className="navbar-brand" href="https://www.globaledulink.co.uk/">
+            <a
+              className="navbar-brand "
+              href="https://www.globaledulink.co.uk/"
+            >
               <img
                 src="https://www.globaledulink.co.uk/wp-content/themes/wplms-child/assets/images/gel-icon.png"
                 alt=""
@@ -213,45 +229,55 @@ export default function ResourcesPage() {
           <button
             className="navbar-toggler"
             type="button"
-            data-toggle="collapse"
-            data-target="#navbarNav"
-            aria-controls="navbarNav"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
           >
             <span className="navbar-toggler-icon"></span>
           </button>
-          {/* <div className="collapse" id="navbarNav"> */}
-          <ul className="navbar-nav flex-row d-none d-md-flex">
+          <div className="collapse navbar-collapse" id="navbarNav">
+            <ul className="navbar-nav flex-lg-row d-lg-none">
             <li className="nav-item active">
-              <a className="nav-link" href="#">
-                COURSES
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="#">
-                AWARDING BODIES
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="#">
-                OUR PRODUCTS
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="#">
-                FREEBIES
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="#">
-                CONTACT
-              </a>
-            </li>
-          </ul>
+                <a className="nav-link" href="#">
+                  ENQUIRE NOW
+                </a>
+              </li>
+            <li className="nav-item active">
+                <a className="nav-link" 
+                onClick={() => {logout()}}
+                href="#">
+                  LOGOUT
+                </a>
+              </li>
+              {/* <li className="nav-item active">
+                <a className="nav-link" href="#">
+                  COURSES
+                </a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="#">
+                  AWARDING BODIES
+                </a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="#">
+                  OUR PRODUCTS
+                </a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="#">
+                  FREEBIES
+                </a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="#">
+                  CONTACT
+                </a>
+              </li> */}
+            </ul>
+          </div>
 
           <button
-            className="btn btn-outline-primary btn-rounded btn-enquire"
+            className="btn btn-outline-primary btn-rounded btn-enquire d-none d-lg-block"
             type="button"
             data-toggle="collapse"
             data-target="#collapseExample"
@@ -261,8 +287,9 @@ export default function ResourcesPage() {
           </button>
 
           {/* Right elements  */}
-          <ul className="navbar-nav flex-row">
-            <li className="nav-item me-3 me-lg-2">
+
+          <ul className="navbar-nav flex-lg-row ml-md-auto d-none d-lg-flex">
+            {/* <li className="nav-item me-3 me-lg-2">
               <a className="nav-link" href="#">
                 <i className="fas fa-search fa-lg" aria-hidden="true"></i>
               </a>
@@ -278,43 +305,61 @@ export default function ResourcesPage() {
               <a className="nav-link" href="#">
                 <i className="fas fa-shopping-bag fa-lg"></i>
               </a>
-            </li>
-            <li className="nav-item me-3 me-lg-2">
-              <button
-                className="btn"
-                type="button"
-                data-toggle="collapse"
-                data-target="#collapseExample"
-                aria-expanded="false"
-              >
-                LOGIN
-              </button>
-            </li>
-            <li className="nav-item me-3 me-lg-2">
-              <button
-                className="btn btn-secondary btn-register rounded-pill"
-                type="button"
-                data-toggle="collapse"
-                data-target="#collapseExample"
-                aria-expanded="false"
-                onClick={() => history.push("/landing")}
-              >
-                REGISTER
-              </button>
-            </li>
+            </li> */}
+            {localStorage.getItem("token") ? (
+              <li className="nav-item me-3 me-lg-2 p-2 ">
+                <button
+                  className=" btn btn-secondary btn-register rounded-pill"
+                  data-toggle="collapse"
+                  data-target="#collapseExample"
+                  aria-expanded="false"
+                  onClick={() => {
+                    logout();
+                  }}
+                >
+                  LOGOUT
+                </button>
+              </li>
+            ) : (
+              <div className="d-flex">
+                <li className="nav-item me-3 me-lg-2">
+                  <button
+                    className="btn"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#collapseExample"
+                    aria-expanded="false"
+                  >
+                    LOGIN
+                  </button>
+                </li>
+                <li className="nav-item me-3 me-lg-2">
+                  <button
+                    className="btn btn-secondary btn-register rounded-pill"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#collapseExample"
+                    aria-expanded="false"
+                    onClick={() => history.push("/landing")}
+                  >
+                    REGISTER
+                  </button>
+                </li>
+              </div>
+            )}
           </ul>
           {/* </div> */}
         </div>
       </nav>
-      <section class="body p-0 m-0">
-        <div class="row margin-none p-0">
-          <div class="bg-light col-3 checkbox">
-            <div class="left-header py-4">
-              <h3 class="header">Refine your Search</h3>
+      <section className="body p-0 m-0">
+        <div className="row p-0 m-0">
+          <div className="bg-light col-3 checkbox d-none d-lg-block">
+            <div className="left-header py-4">
+              <h3 className="header">Refine your Search</h3>
             </div>
 
-            <div class="left-body">
-              <div class="left-body-first py-4">
+            <div className="left-body">
+              <div className="left-body-first py-4">
                 <h4>Awaring Bodies</h4>
                 {/* display awading bodies */}
                 <Checkbox
@@ -325,7 +370,7 @@ export default function ResourcesPage() {
                 />
               </div>
 
-              <div class="left-body-second pb-4">
+              <div className="left-body-second pb-4">
                 <h4>Courses</h4>
                 {/* display resources types */}
                 <CoursesCheckbox
@@ -333,7 +378,7 @@ export default function ResourcesPage() {
                   handleFilters={(filters) => handleFilters(filters, "courses")}
                 />
               </div>
-              <div class="left-body-second">
+              <div className="left-body-second">
                 <h4>Resource Type</h4>
                 <ResourceTypeCheckBox
                   resourceType={resourcesType}
@@ -345,24 +390,24 @@ export default function ResourcesPage() {
             </div>
           </div>
 
-          <div class="col-9 mt-3">
-            <div class="row g-4 p-0">
+          <div className="col-lg-9 col-12 mt-3">
+            <div className="row g-4">
               {/* display resources */}
               {filteredResource.length > 0 ? (
-                filteredResource.map((resource) => (
-                  <div class="col-md-6 col-lg-3 pl-0">
-                    <div class="card bg-light">
+                filteredResource.map((resource, key) => (
+                  <div className="col-md-6 col-lg-3 col-sm-6" key={resource.id}>
+                    <div className="card m-0 bg-light">
                       <img
-                        class="card-img-top resource_image"
+                        className="card-img-top resource_image"
                         src={resource.resource_image}
                         alt=""
                       />
-                      <div class="card-body text-center d-flex flex-column">
-                        <strong class="card-title">
+                      <div className="card-body text-center d-flex flex-column">
+                        <strong className="card-title">
                           {resource.resource_name}
                         </strong>
                         <button
-                          class="btn btn-primary mt-3 mb-3"
+                          className="btn btn-primary mt-3 mb-3"
                           type="button"
                           data-toggle="collapse"
                           data-target="#collapseExample"

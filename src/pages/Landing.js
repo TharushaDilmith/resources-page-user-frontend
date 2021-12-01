@@ -34,7 +34,7 @@ export default function Landing() {
           password: password,
         })
         .then((res) => {
-          if (res.data.status === "success") {
+          if (res.data.success) {
             localStorage.setItem("token", res.data.data.token);
             document
               .getElementById("exampleModal")
@@ -43,8 +43,9 @@ export default function Landing() {
               .querySelectorAll(".modal-backdrop")
               .forEach((el) => el.classList.remove("modal-backdrop"));
             history.push("/");
+            window.location.reload();
           } else {
-            alert(res.data.message);
+           alert(res.data.message);
           }
         })
         .catch((err) => {
@@ -69,16 +70,15 @@ export default function Landing() {
           c_password: password,
         })
         .then((res) => {
-          if (res.data.status === "success") {
+          if (res.data.success) {
             document
               .getElementById("signupModal")
               .classList.remove("show", "d-block");
             document
               .querySelectorAll(".modal-backdrop")
               .forEach((el) => el.classList.remove("modal-backdrop"));
-            alert(res.data.message);
-            setEmail("");
-            setPassword("");
+            history.push("/");
+            window.location.reload();
           } else {
             alert(res.data.message);
           }
@@ -156,32 +156,32 @@ export default function Landing() {
           </div>
 
           <div
-            class="modal fade"
+            className="modal fade"
             id="exampleModal"
-            tabindex="-1"
+            tabIndex="-1"
             aria-labelledby="exampleModalLabel"
             aria-hidden="true"
           >
-            <div class="modal-dialog modal-dialog-centered">
-              <div class="modal-content">
-                <div class="modal-header text-center text-uppercase">
-                  <h5 class="modal-title w-100" id="exampleModalLabel">
+            <div className="modal-dialog modal-dialog-centered">
+              <div className="modal-content">
+                <div className="modal-header text-center text-uppercase">
+                  <h5 className="modal-title w-100" id="exampleModalLabel">
                     Login
                   </h5>
                 </div>
-                <div class="modal-body">
+                <div className="modal-body">
                   <form>
-                    <div class="container d-flex justify-content-center align-items-center flex-column ">
-                      <div class="text-center mb-6">
-                        <h3 class="login-header">Welcome Back!</h3>
+                    <div className="container d-flex justify-content-center align-items-center flex-column ">
+                      <div className="text-center mb-6">
+                        <h3 className="login-header">Welcome Back!</h3>
                         <h6 className="login-subheader">
                           What will you learn today? Find out, with GEL
                         </h6>
                       </div>
-                      <div class="mb-6">
+                      <div className="mb-6">
                         <input
                           type="email"
-                          class="form-control py-6 px-6 input-email"
+                          className="form-control py-6 px-6 input-email"
                           id="exampleInputPassword1"
                           placeholder="Email"
                           value={email}
@@ -189,10 +189,10 @@ export default function Landing() {
                           onChange={(e) => setEmail(e.target.value)}
                         />
                       </div>
-                      <div class="py-6">
+                      <div className="py-6">
                         <input
                           type="password"
-                          class="form-control input-password"
+                          className="form-control input-password"
                           id="exampleInputPassword1"
                           placeholder="Password"
                           value={password}
@@ -202,13 +202,13 @@ export default function Landing() {
                       </div>
                       <button
                         type="submit"
-                        class="btn btn-primary rounded-pill py-2 px-6 login-btn"
+                        className="btn btn-primary rounded-pill py-2 px-6 login-btn"
                         onClick={onLogin}
                         // data-bs-dismiss="modal"
                       >
                         Login
                       </button>
-                      <p class="">
+                      <p className="">
                         New User?{" "}
                         <a
                           href=""
@@ -225,32 +225,32 @@ export default function Landing() {
             </div>
           </div>
           <div
-            class="modal fade"
+            className="modal fade"
             id="signupModal"
-            tabindex="-1"
+            tabIndex="-1"
             aria-labelledby="exampleModalLabel"
             aria-hidden="true"
           >
-            <div class="modal-dialog modal-dialog-centered">
-              <div class="modal-content">
-                <div class="modal-header text-center text-uppercase">
-                  <h5 class="modal-title w-100" id="exampleModalLabel">
+            <div className="modal-dialog modal-dialog-centered">
+              <div className="modal-content">
+                <div className="modal-header text-center text-uppercase">
+                  <h5 className="modal-title w-100" id="exampleModalLabel">
                     SIGN UP
                   </h5>
                 </div>
-                <div class="modal-body">
+                <div className="modal-body">
                   <form>
-                    <div class="container d-flex justify-content-center align-items-center flex-column ">
-                      <div class="text-center">
-                        <h3 class="login-header">Sign Up for free</h3>
+                    <div className="container d-flex justify-content-center align-items-center flex-column ">
+                      <div className="text-center">
+                        <h3 className="login-header">Sign Up for free</h3>
                         <h6 className="login-subheader">
                           Join the World's Largest Free Learning Community
                         </h6>
                       </div>
-                      <div class="p-6">
+                      <div className="p-6">
                         <input
                           type="text"
-                          class="form-control mt-6 input-firstname"
+                          className="form-control mt-6 input-firstname"
                           id="exampleInputPassword1"
                           placeholder="First Name"
                           value={firstName}
@@ -258,10 +258,10 @@ export default function Landing() {
                           onChange={(e) => setFirstName(e.target.value)}
                         />
                       </div>
-                      <div class="py-6">
+                      <div className="py-6">
                         <input
                           type="text"
-                          class="form-control input-lastname"
+                          className="form-control input-lastname"
                           id="exampleInputPassword1"
                           placeholder="Last Name"
                           value={lastName}
@@ -269,10 +269,10 @@ export default function Landing() {
                           onChange={(e) => setLastName(e.target.value)}
                         />
                       </div>
-                      <div class="p-6">
+                      <div className="p-6">
                         <input
                           type="email"
-                          class="form-control mt-6 input-email"
+                          className="form-control mt-6 input-email"
                           id="exampleInputPassword1"
                           placeholder="Email"
                           value={email}
@@ -280,10 +280,10 @@ export default function Landing() {
                           onChange={(e) => setEmail(e.target.value)}
                         />
                       </div>
-                      <div class="py-6">
+                      <div className="py-6">
                         <input
                           type="password"
-                          class="form-control input-password"
+                          className="form-control input-password"
                           id="exampleInputPassword1"
                           placeholder="Password"
                           value={password}
@@ -293,13 +293,13 @@ export default function Landing() {
                       </div>
                       <button
                         type="submit"
-                        class="btn btn-primary rounded-pill py-2 px-6 login-btn"
+                        className="btn btn-primary rounded-pill py-2 px-6 login-btn"
                         onClick={onSignUp}
                         // data-bs-dismiss="modal"
                       >
                         Sign up
                       </button>
-                      <p class="">
+                      <p className="">
                         Already have an account?{" "}
                         <a
                           href=""

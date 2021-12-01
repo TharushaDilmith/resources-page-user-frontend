@@ -19,16 +19,16 @@ export default function CoursesCheckbox({ handleFilters, courses }) {
   return (
     <div>
       {courses.map((courses) => (
-        <div class="form-check py-1">
+        <div className="form-check py-1" key={courses.id}>
           <input
-            class="form-check-input"
+            className="form-check-input"
             type="checkbox"
             value=""
             id="flexCheckDefault"
             onChange={(e) => handleCheckboxChange(courses.id)}
             checked={checked.indexOf(courses.id) !== -1 ? true : false}
           />
-          <label class="form-check-label" for="flexCheckDefault">
+          <label className="form-check-label" htmlFor="flexCheckDefault">
             {courses.course_name}
           </label>
         </div>

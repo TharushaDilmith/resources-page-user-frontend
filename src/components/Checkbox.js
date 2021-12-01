@@ -21,16 +21,16 @@ export default function Checkbox({ awardingBody, handleFilters }) {
   return (
     <div>
       {awardingBody.map((awardingBody) => (
-        <div class="form-check py-1">
+        <div className="form-check py-1" key={awardingBody.id}>
           <input
-            class="form-check-input"
+            className="form-check-input"
             type="checkbox"
             value=""
             id="flexCheckDefault"
             onChange={(e) => handleCheckboxChange(awardingBody.id)}
             checked={checked.indexOf(awardingBody.id) !== -1 ? true : false}
           />
-          <label class="form-check-label" for="flexCheckDefault">
+          <label className="form-check-label" htmlFor="flexCheckDefault">
             {awardingBody.awarding_body_name}
           </label>
         </div>
