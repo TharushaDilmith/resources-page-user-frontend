@@ -19,16 +19,16 @@ export default function ResourceTypeCheckBox({handleFilters, resourceType}) {
   return (
     <div>
       {resourceType.map((resourceType) => (
-        <div class="form-check py-1">
+        <div className="form-check py-1" key={resourceType.id}>
           <input
-            class="form-check-input"
+            className="form-check-input"
             type="checkbox"
             value=""
             id="flexCheckDefault"
             onChange={(e) => handleCheckboxChange(resourceType.id)}
             checked={checked.indexOf(resourceType.id) !== -1 ? true : false}
           />
-          <label class="form-check-label" for="flexCheckDefault">
+          <label className="form-check-label" htmlFor="flexCheckDefault">
             {resourceType.resource_type_name}
           </label>
         </div>

@@ -8,10 +8,8 @@ function App() {
     <div className="App">
       <Router>
         <Switch>
-          <section>
           <Route exact path="/" component={ResourcesPage} />
           <Route path="/landing" component={Landing} />
-          </section>
         </Switch>
       </Router>
     </div>
