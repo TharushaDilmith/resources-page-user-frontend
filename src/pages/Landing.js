@@ -21,12 +21,16 @@ export default function Landing() {
   //use state to last name
   const [lastName, setLastName] = React.useState("");
 
+  //use state to store loading state
+  const [loading, setLoading] = React.useState(false);
+
   //use history to redirect to home page
   const history = useHistory();
 
   //onlogin function
   const onLogin = (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       axios
         .post("/login", {
@@ -35,23 +39,37 @@ export default function Landing() {
         })
         .then((res) => {
           if (res.data.success) {
+            //to
             localStorage.setItem("token", res.data.data.token);
+            //set loading state to false
+            setLoading(false);
+            //close modal
             document
               .getElementById("exampleModal")
               .classList.remove("show", "d-block");
+            //remove modal backdrop
             document
               .querySelectorAll(".modal-backdrop")
               .forEach((el) => el.classList.remove("modal-backdrop"));
-            history.push("/");
+            history.push("/resources");
             window.location.reload();
           } else {
-           alert(res.data.message);
+            //set loading to false
+            setLoading(false);
+            //show error message
+            alert(res.data.message);
           }
         })
         .catch((err) => {
+          //set loading to false
+          setLoading(false);
+          //show error message
           console.log(err);
         });
     } catch (error) {
+      //set loading state to false
+      setLoading(false);
+      //show error message
       console.log(error);
     }
   };
@@ -59,7 +77,9 @@ export default function Landing() {
   //onSignUp
   const onSignUp = (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
+      //post request to signup
       axios
 
         .post("/register", {
@@ -71,32 +91,48 @@ export default function Landing() {
         })
         .then((res) => {
           if (res.data.success) {
+            //store token in local storage
+            localStorage.setItem("token", res.data.data.token);
+            //set loading state to false
+            setLoading(false);
+            //close modal
             document
               .getElementById("signupModal")
               .classList.remove("show", "d-block");
+            //remove backdrop
             document
               .querySelectorAll(".modal-backdrop")
               .forEach((el) => el.classList.remove("modal-backdrop"));
-            history.push("/");
+            //redirect to resources page
+            history.push("/resources");
             window.location.reload();
           } else {
+            //set loading state to false
+            setLoading(false);
+            //show error message
             alert(res.data.message);
           }
         })
         .catch((err) => {
+          //set loading state to false
+          setLoading(false);
+          //show error message
           console.log(err);
         });
     } catch (error) {
+      //set loading state to false
+      setLoading(false);
+      //show error message
       console.log(error);
     }
   };
 
   return (
     <div className="landing  p-0">
-      <section className="main p-0">
+      <section className="main p-0  object-cover object-sm-center object-lg-full">
         <div className="container py-3">
           <div className="row">
-            <div className="col-6 d-flex justify-content-center flex-column">
+            <div className="col-lg-8 col-xl-6 col-md-10 d-flex justify-content-center flex-column">
               <a className="" href="https://www.globaledulink.co.uk/">
                 <img
                   src="https://www.globaledulink.co.uk/wp-content/themes/wplms-child/assets/images/gel-icon.png"
@@ -113,14 +149,18 @@ export default function Landing() {
                   height="100"
                 />
               </a>
-              <h1 className="py-4">
-                The most accessible resources you could ever come across
-              </h1>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-                euismod, nisi eu blandit consectetur, nisl nunc aliquet nunc,
-                euismod aliquam eros nunc euismod.
-              </p>
+              <div className="row">
+                <div className="col-lg-12 col-md-8 col-sm-12">
+                  <h1 className="py-4">
+                    The most accessible resources you could ever come across
+                  </h1>
+                  <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                    Donec euismod, nisi eu blandit consectetur, nisl nunc
+                    aliquet nunc, euismod aliquam eros nunc euismod.
+                  </p>
+                </div>
+              </div>
               <button
                 className="btn btn-primary py-2 my-4 rounded-pill resource-btn"
                 data-bs-toggle="modal"
@@ -130,8 +170,8 @@ export default function Landing() {
               </button>
               <div className="information-container pt-4">
                 <div className="row">
-                  <div className="col-5">
-                    <div className="information-item p-2">
+                  <div className="col-6 col-xl-6 col-lg-5 col-md-6  col-sm-6">
+                    <div className="information-item p-2 mt-2">
                       <img src={first} alt="" className="" />
                       <span className="px-2">Guided lerning Hours(48)</span>
                     </div>
@@ -140,8 +180,8 @@ export default function Landing() {
                       <span className="px-2">Course Material</span>
                     </div>
                   </div>
-                  <div className="col-5">
-                    <div className="information-item p-2">
+                  <div className="col-6 col-xl-6 col-lg-5 col-md-6 col-sm-6">
+                    <div className="information-item p-2 mt-2">
                       <img src={third} alt="" />
                       <span className="px-2">Tutor Support</span>
                     </div>
@@ -204,8 +244,16 @@ export default function Landing() {
                         type="submit"
                         className="btn btn-primary rounded-pill py-2 px-6 login-btn"
                         onClick={onLogin}
+                        {...(loading ? { disabled: true } : {})}
                         // data-bs-dismiss="modal"
                       >
+                        {loading && (
+                          <span
+                            class="spinner-border spinner-border-sm"
+                            role="status"
+                            aria-hidden="true"
+                          ></span>
+                        )}
                         Login
                       </button>
                       <p className="">
@@ -295,8 +343,16 @@ export default function Landing() {
                         type="submit"
                         className="btn btn-primary rounded-pill py-2 px-6 login-btn"
                         onClick={onSignUp}
+                        {...(loading ? { disabled: true } : {})}
                         // data-bs-dismiss="modal"
                       >
+                        {loading && (
+                          <span
+                            class="spinner-border spinner-border-sm"
+                            role="status"
+                            aria-hidden="true"
+                          ></span>
+                        )}
                         Sign up
                       </button>
                       <p className="">
