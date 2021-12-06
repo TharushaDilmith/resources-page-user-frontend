@@ -1,6 +1,10 @@
 *{
     font-family: "Poppins", sans-serif;
 }
+
+.body{
+    margin-top: 100px;
+}
 .btn-enquire{
     border-radius: 60px;
 }
@@ -9,10 +13,11 @@
     border-radius: 60px;
     background-color: rgb(143, 26, 185);
     border: none;
+    font-size: 14px !important;
 }
 
 .left{
-    height: 100vh;
+
     width: 100%;
     
 }
@@ -31,6 +36,7 @@
 
 .left-body{
     padding-left: 100px;
+    
 }
 
 .resource_image{
@@ -40,7 +46,7 @@
 }
 
 .checkbox{
-    height: 100%;
+    height: 100% !important;
     padding: 0;
 }
 
@@ -49,9 +55,6 @@
     margin-top: 20px !important;
 }
 
-.body{
-    margin-bottom: 30px;
-}
 
 .header{
     width: 100% !important;
@@ -65,4 +68,12 @@
         width: 100px;
 
     }
+}
+
+.logout{
+    font-size: 2px !important;
+}
+
+.load-more{
+    margin-top: 20px;
 }

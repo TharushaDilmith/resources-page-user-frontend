@@ -26,11 +26,13 @@ export default function ResourcesPage() {
   //use history to redirect to the home page
   const history = useHistory();
 
-
   //use state for seletec awarding body id
   const [selectedAwardingBodyId, setSelectedAwardingBodyId] = React.useState(
     []
   );
+
+  //use state for visibele
+  const [visible, setVisible] = React.useState(4);
 
   //use state to store the filtered resource
   const [filteredResource, setFilteredResource] = React.useState([]);
@@ -202,9 +204,14 @@ export default function ResourcesPage() {
     }
   };
 
+  //show more items
+  const showMoreItems = () => {
+    setVisible(visible + 3);
+  };
+
   return (
     <div>
-      <nav className="navbar navbar-expand-lg navbar-light">
+      <nav className="navbar navbar-expand-lg navbar-light fixed-top">
         <div className="container-fluid justify-content-between mx-5">
           {/* left elements */}
           <div className="d-flex">
@@ -236,18 +243,39 @@ export default function ResourcesPage() {
           </button>
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav flex-lg-row d-lg-none">
-            <li className="nav-item active">
-                <a className="nav-link" href="#">
-                  ENQUIRE NOW
-                </a>
-              </li>
-            <li className="nav-item active">
-                <a className="nav-link" 
-                onClick={() => {logout()}}
-                href="#">
-                  LOGOUT
-                </a>
-              </li>
+              {localStorage.getItem("token") ? (
+                <>
+                  <li className="nav-item active">
+                    <a className="nav-link" href="#">
+                      ENQUIRE NOW
+                    </a>
+                  </li>
+                  <li className="nav-item active">
+                    <a
+                      className="nav-link"
+                      onClick={() => {
+                        logout();
+                      }}
+                      href="#"
+                    >
+                      LOGOUT
+                    </a>
+                  </li>
+                </>
+              ) : (
+                <>
+                  <li className="nav-item active">
+                    <a className="nav-link" href="#">
+                      LOGIN
+                    </a>
+                  </li>
+                  <li className="nav-item active">
+                    <a className="nav-link" href="#">
+                      REGISTER
+                    </a>
+                  </li>
+                </>
+              )}
               {/* <li className="nav-item active">
                 <a className="nav-link" href="#">
                   COURSES
@@ -309,7 +337,7 @@ export default function ResourcesPage() {
             {localStorage.getItem("token") ? (
               <li className="nav-item me-3 me-lg-2 p-2 ">
                 <button
-                  className=" btn btn-secondary btn-register rounded-pill"
+                  className=" btn btn-secondary btn-register rounded-pill px-3"
                   data-toggle="collapse"
                   data-target="#collapseExample"
                   aria-expanded="false"
@@ -351,85 +379,121 @@ export default function ResourcesPage() {
           {/* </div> */}
         </div>
       </nav>
-      <section className="body p-0 m-0">
-        <div className="row p-0 m-0">
-          <div className="bg-light col-3 checkbox d-none d-lg-block">
-            <div className="left-header py-4">
-              <h3 className="header">Refine your Search</h3>
-            </div>
 
-            <div className="left-body">
-              <div className="left-body-first py-4">
-                <h4>Awaring Bodies</h4>
-                {/* display awading bodies */}
-                <Checkbox
-                  awardingBody={awardingBody}
-                  handleFilters={(filters) =>
-                    handleFilters(filters, "awardingBody")
-                  }
-                />
+      <section className="body p-0">
+        {resource.length > 0 ? (
+          <>
+            <div className="row p-0 m-0">
+              <div className="bg-light col-3 checkbox d-none d-lg-block h-100">
+                <div className="left-header py-4">
+                  <h3 className="header">Refine your Search</h3>
+                </div>
+
+                <div className="left-body">
+                  <div className="left-body-first py-4">
+                    <h4>Awaring Bodies</h4>
+                    {/* display awading bodies */}
+                    <Checkbox
+                      awardingBody={awardingBody}
+                      handleFilters={(filters) =>
+                        handleFilters(filters, "awardingBody")
+                      }
+                    />
+                  </div>
+
+                  <div className="left-body-second pb-4">
+                    <h4>Courses</h4>
+                    {/* display resources types */}
+                    <CoursesCheckbox
+                      courses={courses}
+                      handleFilters={(filters) =>
+                        handleFilters(filters, "courses")
+                      }
+                    />
+                  </div>
+                  <div className="left-body-second">
+                    <h4>Resource Type</h4>
+                    <ResourceTypeCheckBox
+                      resourceType={resourcesType}
+                      handleFilters={(filters) =>
+                        handleFilters(filters, "resourceType")
+                      }
+                    />
+                  </div>
+                </div>
               </div>
 
-              <div className="left-body-second pb-4">
-                <h4>Courses</h4>
-                {/* display resources types */}
-                <CoursesCheckbox
-                  courses={courses}
-                  handleFilters={(filters) => handleFilters(filters, "courses")}
-                />
-              </div>
-              <div className="left-body-second">
-                <h4>Resource Type</h4>
-                <ResourceTypeCheckBox
-                  resourceType={resourcesType}
-                  handleFilters={(filters) =>
-                    handleFilters(filters, "resourceType")
-                  }
-                />
-              </div>
-            </div>
-          </div>
-
-          <div className="col-lg-9 col-12 mt-3">
-            <div className="row g-4">
-              {/* display resources */}
-              {filteredResource.length > 0 ? (
-                filteredResource.map((resource, key) => (
-                  <div className="col-md-6 col-lg-3 col-sm-6" key={resource.id}>
-                    <div className="card m-0 bg-light">
-                      <img
-                        className="card-img-top resource_image"
-                        src={resource.resource_image}
-                        alt=""
-                      />
-                      <div className="card-body text-center d-flex flex-column">
-                        <strong className="card-title">
-                          {resource.resource_name}
-                        </strong>
+              <div className="col-lg-9 col-12 mt-3">
+                <div className="row g-4">
+                  {/* display resources */}
+                  {filteredResource.length > 0 ? (
+                    filteredResource.slice(0, visible).map((resource, key) => (
+                      <div
+                        className="col-md-6 col-lg-3 col-sm-6"
+                        key={resource.id}
+                      >
+                        <div className="card m-0 bg-light">
+                          <img
+                            className="card-img-top resource_image"
+                            src={resource.resource_image}
+                            alt=""
+                          />
+                          <div className="card-body text-center d-flex flex-column">
+                            <strong className="card-title">
+                              {resource.resource_name}
+                            </strong>
+                            <button
+                              className="btn btn-primary mt-3 mb-3"
+                              type="button"
+                              data-toggle="collapse"
+                              data-target="#collapseExample"
+                              aria-expanded="false"
+                              onClick={() => {
+                                onResourceClick(resource);
+                              }}
+                            >
+                              {resource.resourcetype_id === 7
+                                ? "Start Now"
+                                : "View Now"}
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <div className="margin-auto">No Result Found</div>
+                  )}
+                  {/* load more button */}
+                  {filteredResource.length > visible && (
+                    <div className="row load-more">
+                      <div className="col-12 d-flex justify-content-center">
                         <button
-                          className="btn btn-primary mt-3 mb-3"
+                          className="btn btn-block btn-secondary"
                           type="button"
                           data-toggle="collapse"
                           data-target="#collapseExample"
                           aria-expanded="false"
-                          onClick={() => {
-                            onResourceClick(resource);
-                          }}
+                          onClick={showMoreItems}
                         >
-                          {resource.resourcetype_id === 1
-                            ? "Start Now"
-                            : "View Now"}
+                          Load More
                         </button>
                       </div>
                     </div>
-                  </div>
-                ))
-              ) : (
-                <div className="margin-auto">No Result Found</div>
-              )}
+                  )}
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
+          </>
+        ) : (
+          <>
+            <div class="d-flex justify-content-center align-items-center mt-5">
+              <div>Loading</div>
+              <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+            </div>
+          </>
+        )}
       </section>
     </div>
   );
